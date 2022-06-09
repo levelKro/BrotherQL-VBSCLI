@@ -5,6 +5,8 @@
 '   
 '   Template must have 'var1', 'var2' etc.. for text to replace.
 '   Afther, folow number increment to paste arguments in command.
+'	If the element to replace is a image, add @ before the value. 
+'		Example : @image.jpg
 '*******************************************************************
 
 
@@ -14,20 +16,21 @@ Set args = Wscript.Arguments
 Sub DoPrint(vars)
 	Set ObjDoc = CreateObject("bpac.Document")
 	bRet = ObjDoc.Open(vars(0))
-	
 	Call ObjDoc.SetMediaByName(ObjDoc.Printer.GetMediaName(), True)
-	
 	If (bRet <> False) Then
 		valindex=0
 		Dim item
 		For Each item In vars
 			If valindex <> 0 Then
 				itemname = "var" & valindex
-				ObjDoc.GetObject(itemname).Text = item
+				If Mid(item,1,1) = "@" Then
+					Call ObjDoc.GetObject(itemname).SetData(0, Mid(item,2), 4)
+				Else
+					ObjDoc.GetObject(itemname).Text = item
+				End If
 			End If
 			valindex = valindex + 1
 		Next
-		
 		Call ObjDoc.SetMediaByName(ObjDoc.Printer.GetMediaName(), True)
 		retval=ObjDoc.StartPrint("Label " & vars(0), 0)
 		retval=ObjDoc.PrintOut(0, 0)
