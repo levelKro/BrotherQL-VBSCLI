@@ -12,3 +12,4 @@ You can paste directly to VBS script also, if you need.
 
 ## Template
 Use P-Touch software to create template to print. If you want replace value, name it 'varX' where X is the numeral value of this variable replacement. "var1" was replaced by the first argument (after template name), the "var2" by the second and etc...
+You can also replace media by adding '@' before the file, example: "@myimage.jpg"
